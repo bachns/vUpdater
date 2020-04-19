@@ -1,0 +1,11 @@
+{
+  "vGeoCatalog":
+  {
+    "latest-version": "2.0.1.1179",
+    "changelog": "- Cải thiện hiệu suất\n- Các file zip sẽ được đưa luôn vào bảng \"Không tọa độ\"",
+    "downloads":
+    {
+      "earth": "https://raw.githubusercontent.com/vGeoDev/vGeoCatalog/update/install-updates/earth.png"
+    }
+  }
+}
