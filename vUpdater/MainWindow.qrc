@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/vUpdater.png</file>
+        <file>Resources/vUpdater.svg</file>
+    </qresource>
+</RCC>
