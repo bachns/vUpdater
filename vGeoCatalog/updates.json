@@ -1,8 +1,8 @@
 {
   "vGeoCatalog":
   {
-    "latest-version": "2.0.1.1182",
-    "changelog": "- Cải thiện hiệu suất\n- Các file zip sẽ được đưa luôn vào bảng \"Không tọa độ\"",
+    "latest-version": "2.0.1.1184",
+    "changelog": "- Bổ sung gợi ý (tooltip)\n- Đơn giản toolbar",
     "downloads":
     {
       "vGeoCatalog": "https://raw.githubusercontent.com/bachns/vUpdater/master/vGeoCatalog/vGeoCatalog.exe"
