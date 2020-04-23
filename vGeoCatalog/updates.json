@@ -1,8 +1,8 @@
 {
   "vGeoCatalog":
   {
-    "latest-version": "2.0.1.1185",
-    "changelog": "- Cải thiện hiệu suất\n- Sửa lỗi chính tả tiếng Việt",
+    "latest-version": "2.0.1.1194",
+    "changelog": "- Sửa lỗi xem ảnh từ thư viện\n- Cải thiện trải nghiệm phần mềm\n- Mở rộng vùng nhìn khi double-click",
     "downloads":
     {
       "vGeoCatalog": "https://raw.githubusercontent.com/bachns/vUpdater/master/vGeoCatalog/vGeoCatalog.exe"
