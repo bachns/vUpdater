@@ -1,8 +1,8 @@
 {
   "vGeoCatalog":
   {
-    "latest-version": "2.0.1.1194",
-    "changelog": "- Sửa lỗi xem ảnh từ thư viện\n- Cải thiện trải nghiệm phần mềm\n- Mở rộng vùng nhìn khi double-click",
+    "latest-version": "2.0.1.1204",
+    "changelog": "- Sửa lỗi thanh ProgressBar bị đóng băng khi quét gần xong\n- Ghi log file chi tiết hơn\n- Cải thiện trải nghiệm phần mềm",
     "downloads":
     {
       "vGeoCatalog": "https://raw.githubusercontent.com/bachns/vUpdater/master/vGeoCatalog/vGeoCatalog.exe"
