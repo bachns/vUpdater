@@ -1,8 +1,8 @@
 {
   "vGeoCatalog":
   {
-    "latest-version": "2.0.1.1204",
-    "changelog": "- Sửa lỗi thanh ProgressBar bị đóng băng khi quét gần xong\n- Ghi log file chi tiết hơn\n- Cải thiện trải nghiệm phần mềm",
+    "latest-version": "2.0.1.1249",
+    "changelog": "- Gửi lệnh mở dữ liệu cho vGeoInt\n- Fix lỗi đi tới thư mục\n-Fix lỗi sửa thư viện\n- Cập nhật đồng bộ icon",
     "downloads":
     {
       "vGeoCatalog": "https://raw.githubusercontent.com/bachns/vUpdater/master/vGeoCatalog/vGeoCatalog.exe"
