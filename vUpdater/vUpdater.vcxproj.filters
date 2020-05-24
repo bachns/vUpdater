@@ -63,9 +63,6 @@
     <ClInclude Include="Vietnamese.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UpdateItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>

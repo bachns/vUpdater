@@ -75,7 +75,7 @@
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
@@ -103,7 +103,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Downloader.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="UpdateItem.h" />
     <ClInclude Include="Vietnamese.h" />
   </ItemGroup>
