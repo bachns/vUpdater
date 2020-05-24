@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>Resources/vUpdater.png</file>
         <file>Resources/vUpdater.svg</file>
+        <file>Resources/download.svg</file>
     </qresource>
 </RCC>

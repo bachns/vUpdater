@@ -4,6 +4,8 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 #include <QMessageBox>
+#include <QSaveFile>
+
 #include <cmath>
 
 Downloader::Downloader(QWidget* parent)
@@ -11,20 +13,18 @@ Downloader::Downloader(QWidget* parent)
 {
 	setupUi(this);
 	mManager = new QNetworkAccessManager;
-	mDownloadDir.setPath(QDir::homePath() + "/Downloads/");
-	mSuffix = ".part";
-
+	mDownloadDir.setPath(QDir::homePath() + "/Downloads/vUpdater");
 	connect(cancelButton, &QPushButton::clicked, this, &Downloader::cancelDownloading);
 }
 
-void Downloader::setUrls(QStringList urls)
+void Downloader::setDownloadUrls(const QStringList& urls)
 {
-	mUrls = std::move(urls);
+	mDownloadUrls = urls;
 }
 
-QStringList Downloader::urls() const
+QStringList Downloader::downloadUrls() const
 {
-	return mUrls;
+	return mDownloadUrls;
 }
 
 QDir Downloader::downloadDir() const
@@ -36,114 +36,75 @@ void Downloader::start()
 {
 	if (!mDownloadDir.exists() && !mDownloadDir.mkpath("."))
 		return;
-	
-	removeOldFiles();
-	if (!mUrls.empty())
-	{
-		showNormal();
-		mCurrentIndex = 0;
-		mAbort = false;
-		QString url = mUrls.at(mCurrentIndex);
-		downloadUrl(url);
-	}
+	mCurrentIndex = 0;
+	download();
 }
 
-void Downloader::updateProgress(qint64 received, qint64 total) const
+void Downloader::updateProgress(qint64 received, qint64 total)
 {
-	if (total > 0)
-	{
-		progressBar->setValue(qint64(received * 100 / total));
-		QString receivedSize = calculateSizes(received);
-		QString totalSize = calculateSizes(total);
-		QString timeRemaining = calculateTimeRemaining(received, total);
-		messageLabel->setText(Vietnamese::str(L"Đang tải %1: %2 / %3").arg(mFileName).arg(receivedSize).arg(totalSize));
-		timeRemainingLabel->setText(Vietnamese::str(L"Thời gian còn lại %1").arg(timeRemaining));
-		saveFile();
-	}
-	else
-	{
-		progressBar->setMinimum(0);
-		progressBar->setMaximum(0);
-		progressBar->setValue(-1);
-		messageLabel->setText(Vietnamese::str(L"Đang tải bản cập nhât"));
-		timeRemainingLabel->setText(Vietnamese::str(L"Thời gian còn lại: Không xác định"));
-	}
+	progressBar->setValue(qint64(received * 100 / total));
+	QString receivedSize = calculateSizes(received);
+	QString totalSize = calculateSizes(total);
+	QString timeRemaining = calculateTimeRemaining(received, total);
+	messageLabel->setText(Vietnamese::str(L"Đang tải %1: %2 / %3").arg(mFileName).arg(receivedSize).arg(totalSize));
+	timeRemainingLabel->setText(Vietnamese::str(L"Thời gian còn lại %1").arg(timeRemaining));
+	mDataDownloaded.append(mReply->readAll());
 }
 
 void Downloader::downloadUrlFinished()
 {
-	if (!mAbort)
+	QFile file(mDownloadDir.filePath(mFileName));
+	if (file.open(QIODevice::WriteOnly))
 	{
-		QFile::rename(mDownloadDir.filePath(mFileName + mSuffix),
-			mDownloadDir.filePath(mFileName));
-		mReply->close();
-		++mCurrentIndex;
-		if (mCurrentIndex == mUrls.size())
-		{
-			hide();
-			emit finished();
-		}
-		else
-		{
-			QString url = mUrls.at(mCurrentIndex);
-			downloadUrl(url);
-		}
+		file.write(mDataDownloaded);
+		file.close();
+		
+	}
+
+	//tăng chỉ số để chuyển sang tải file tiếp theo
+	mCurrentIndex++;
+	//Đã tải xong
+	if (mCurrentIndex == mDownloadUrls.size())
+	{
+		emit finished(); //thông báo hoàn thành
+	}
+	else
+	{
+		download(); //lặp lại quá trình download
 	}
 }
 
 void Downloader::cancelDownloading()
 {
-	if (mReply->isFinished())
+	if (QMessageBox::question(this, windowTitle(),
+		Vietnamese::str(L"Bạn muốn thoát quá trình tải xuống?"))
+		== QMessageBox::Yes)
 	{
+		mReply->abort();
+		mDownloadDir.removeRecursively();
 		close();
 	}
-	else
-	{
-		if (QMessageBox::question(
-			this, windowTitle(),
-			Vietnamese::str(L"Bạn muốn thoát quá trình tải xuống?"))
-			== QMessageBox::Yes)
-		{
-			mReply->abort();
-			mAbort = true;
-			removeOldFiles();
-			close();
-		}
-	}
 }
 
-void Downloader::removeOldFiles()
+void Downloader::download()
 {
-	for (const QString& url : mUrls)
-	{
-		QString fileName = url.split("/").last();
-		QFile::remove(mDownloadDir.filePath(fileName));
-		QFile::remove(mDownloadDir.filePath(fileName + mSuffix));
-	}
-}
+	//Đã download xong
+	if (mCurrentIndex >= mDownloadUrls.size())
+		return;
 
-void Downloader::downloadUrl(const QString& url)
-{
 	progressBar->setMinimum(0);
 	progressBar->setMaximum(100);
 	progressBar->setValue(0);
+	mDataDownloaded.clear();
+	
+	const QString& url = mDownloadUrls.at(mCurrentIndex);
 	mFileName = url.split("/").last();
-
+	
 	QNetworkRequest request(url);
 	mReply = mManager->get(request);
 	mStartTime = QDateTime::currentDateTime().toTime_t();
 	connect(mReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(updateProgress(qint64, qint64)));
 	connect(mReply, SIGNAL(finished()), this, SLOT(downloadUrlFinished()));
-}
-
-void Downloader::saveFile() const
-{
-	QFile file(mDownloadDir.filePath(mFileName + mSuffix));
-	if (file.open(QIODevice::WriteOnly | QIODevice::Append))
-	{
-		file.write(mReply->readAll());
-		file.close();
-	}
 }
 
 QString Downloader::calculateSizes(qint64 bytes)

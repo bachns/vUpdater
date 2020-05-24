@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>440</width>
-    <height>260</height>
+    <width>330</width>
+    <height>460</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,19 +18,28 @@
     <normaloff>:/Resources/vUpdater.svg</normaloff>:/Resources/vUpdater.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
-       <number>12</number>
+       <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="logoLabel">
+        <property name="frameShape">
+         <enum>QFrame::Panel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="pixmap">
          <pixmap resource="MainWindow.qrc">:/Resources/vUpdater.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -38,18 +47,12 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
-         <number>12</number>
+         <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="titleLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="nameLabel">
           <property name="font">
            <font>
             <pointsize>9</pointsize>
@@ -57,8 +60,17 @@
             <bold>true</bold>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">color: #3B97D3;</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Panel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
           <property name="text">
-           <string>Cập nhật vGeoCatalog</string>
+           <string>vUpdater</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -66,23 +78,24 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="updateInfoLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <widget class="QLabel" name="infoLabel">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
+          <property name="frameShape">
+           <enum>QFrame::Panel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
           </property>
           <property name="text">
-           <string>Thông tin về bản cập nhật:</string>
+           <string>Kiểm tra và cập nhật các sản phẩm phần mềm của vGeoDev</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignHCenter|Qt::AlignTop</set>
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -91,20 +104,80 @@
      </layout>
     </item>
     <item row="1" column="0">
-     <widget class="QTextEdit" name="changelogTextEdit"/>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="softwareNameLabel">
+        <property name="text">
+         <string>Phần mềm:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="softwareNameLineEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="currentVersionLabel">
+        <property name="text">
+         <string>Phiên bản hiện tại:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="currentVersionLineEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lastVersionLabel">
+        <property name="text">
+         <string>Phiên bản mới nhất:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lastVersionLineEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item row="2" column="0">
+     <widget class="QTextEdit" name="changelogTextEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="checkButton">
         <property name="text">
          <string>Kiểm tra</string>
         </property>
+        <property name="icon">
+         <iconset resource="MainWindow.qrc">
+          <normaloff>:/Resources/vUpdater.svg</normaloff>:/Resources/vUpdater.svg</iconset>
+        </property>
         <property name="autoDefault">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <property name="default">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -123,8 +196,15 @@
       </item>
       <item>
        <widget class="QPushButton" name="downloadButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Tải xuống</string>
+        </property>
+        <property name="icon">
+         <iconset resource="MainWindow.qrc">
+          <normaloff>:/Resources/download.svg</normaloff>:/Resources/download.svg</iconset>
         </property>
        </widget>
       </item>
@@ -142,10 +222,13 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
+  <tabstop>softwareNameLineEdit</tabstop>
+  <tabstop>currentVersionLineEdit</tabstop>
+  <tabstop>lastVersionLineEdit</tabstop>
+  <tabstop>changelogTextEdit</tabstop>
   <tabstop>checkButton</tabstop>
   <tabstop>downloadButton</tabstop>
   <tabstop>cancelButton</tabstop>
-  <tabstop>changelogTextEdit</tabstop>
  </tabstops>
  <resources>
   <include location="MainWindow.qrc"/>

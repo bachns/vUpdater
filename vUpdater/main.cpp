@@ -1,59 +1,27 @@
 #include "MainWindow.h"
 #include <QApplication>
 #include <QFile>
-#include <QTextStream>
 
 int main(int argc, char* argv[])
 {
 	QApplication a(argc, argv);
-	QString name, currentVersion, jsonFile, installPath;
-	QStringList argvs;
 
-	if (QFile::exists("logs/vUpdater.param"))
-	{
-		QFile paramFile("logs/vUpdater.param");
-		if (paramFile.open(QIODevice::ReadOnly | QIODevice::Text))
-		{
-			QTextStream textStream(&paramFile);
-			argvs = textStream.readLine().split(' ');
-			paramFile.close();
-		}
-	}
-	else
-	{
-		for (int i = 1; i < argc; ++i)
-			argvs << argv[i];
-	}
+	QString paramJson;
+	if (argc == 2)
+		paramJson = argv[1];
+	else if (QFile::exists("param.json"))
+		paramJson = "param.json";
+	else if (QFile::exists("logs/param.json"))
+		paramJson = "logs/param.json";
 
-	for (int i = 0; i < argvs.size(); ++i)
+	if (paramJson.isEmpty())
 	{
-		if (argvs[i] == "--name" || argvs[i] == "-n")
-		{
-			name = argvs[i + 1];
-			++i;
-		}
-		else if (argvs[i] == "--current" || argvs[i] == "-c")
-		{
-			currentVersion = argvs[i + 1];
-			++i;
-		}
-		else if (argvs[i] == "--json" || argvs[i] == "-j")
-		{
-			jsonFile = argvs[i + 1];
-			++i;
-		}
-		if (argvs[i] == "--install" || argvs[i] == "-i")
-		{
-			installPath = argvs[i + 1];
-			++i;
-		}
-	}
-
-	if (name.isEmpty() || jsonFile.isEmpty() || currentVersion.isEmpty() || installPath.isEmpty())
+		printf("cannot find param.json file");
 		return -1;
+	}
 
-	MainWindow w;
-	w.setParameters(name, currentVersion, jsonFile, installPath);
+	MainWindow w(paramJson);
 	w.show();
+
 	return QApplication::exec();
 }

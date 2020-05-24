@@ -1,0 +1,7 @@
+{
+    "software-name": "vGeoCatalog",
+    "current-version": "2.0.1.1201",
+    "release-date": "22/5/2020",
+    "install-path" : "D:/Test",
+    "json-url": "https://raw.githubusercontent.com/bachns/vUpdaterStorage/master/vGeoCatalog/update.json"
+}
